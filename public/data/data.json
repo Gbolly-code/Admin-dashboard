@@ -20,7 +20,7 @@
     { "name": "Beauty & Personal Care", "value": 2700 },
     { "name": "Gaming Accessories", "value": 2200 }
   ],
-  "orderStatus": [
+  "orderStatusData": [
     { "name": "Pending", "value": 60 },
     { "name": "Processing", "value": 45 },
     { "name": "Canceled", "value": 30 },
