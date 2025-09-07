@@ -5,6 +5,7 @@ import { DollarSign, ShoppingBag, SquareActivity, Users } from 'lucide-react'
 import React from 'react'
 import { motion } from 'framer-motion'
 import SalesOverviewChart from '@/components/SalesOverviewChart'
+import CategoryDistributionChart from '@/components/CategoryDistributionChart'
 
 const OverviewPage = () => {
   return (
@@ -23,6 +24,7 @@ const OverviewPage = () => {
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
                 <SalesOverviewChart />
+                <CategoryDistributionChart />
             </div>
         </main>
       
