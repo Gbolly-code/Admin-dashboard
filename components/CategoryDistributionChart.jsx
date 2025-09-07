@@ -2,20 +2,39 @@
 
 import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, PieChart, Pie, Tooltip, Legend, Cell } from 'recharts'
+import { motion } from 'framer-motion'
 
 const COLORS = ["#FF6B6B", "#4D96FF", "#FFD166", "#06D6A0", "#A29BFE"]
 
 const CategoryDistributionChart = () => {
 
     const [categoryData, setCategoryData] = useState([])
+    const [isSmallOrMediumScreen, setIsSmallOrMediumScreen] = useState(false)
 
     useEffect(() => {
         fetch("/data/data.json")
         .then((res) => res.json())
         .then((data) => setCategoryData(data.categories))
     }, [])
+
+    useEffect(() => {
+        const updateScreenSize = () => {
+            setIsSmallOrMediumScreen(window.innerWidth <= 768)
+        }
+
+        updateScreenSize()
+        window.addEventListener("resize", updateScreenSize)
+        return () => window.removeEventListener("resize", updateScreenSize)
+    }, [])
+
+    const outerRadius = isSmallOrMediumScreen ? 60 : 80 
+
   return (
-    <div className='bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0'>
+    <motion.div className='bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 
+    border border-[#1f1f1f] mx-2 md:mx-0'
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3, duration: 0.5}}>
         <h2 className='text-base md:text-lg font-medium mb-4 text-gray-100 text-center md:text-left'>
             Category Distribution</h2>
             <div className='h-64 md:h-80'>
@@ -24,6 +43,7 @@ const CategoryDistributionChart = () => {
                     <Pie data={categoryData} 
                     cx="50%" cy="50%" 
                     labelLine={false}
+                    outerRadius={outerRadius}
                     dataKey="value"
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
                         {categoryData.map((entry, index) => (
@@ -42,7 +62,7 @@ const CategoryDistributionChart = () => {
                    </PieChart> 
                 </ResponsiveContainer>
             </div>
-    </div>
+    </motion.div>
   )
 }
 
