@@ -42,7 +42,6 @@ const Sidebar = () => {
                         <div className={`flex items-center p-4 text-sm font-medium rounded-lg hover:bg-[#2f2f2f] transition-colors mb-2 
                         ${pathname === item.href ? "bg-[#2f2f2f]" : ""}`}>
                             <IconComponent size={20} style={{ minWidth: "20px" }}/>
-
                            {isSidebarOpen && (
                             <span className='ml-4 whitespace-nowrap'>{item.name}</span>
                            )}
