@@ -10,6 +10,16 @@ import { Edit, Search, Trash2 } from 'lucide-react'
 const ProductsTable = () => {
 
     const [products, setProducts] = useState(productData.products)
+    const [searchTerm, setSearchTerm] = useState('')
+
+    const filteredProducts = products.filter(product => 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.price.toString().includes(searchTerm) ||
+        product.stock.toString().includes(searchTerm) ||
+        product.sales.toString().includes(searchTerm)
+    )
 
   return (
     <motion.div className='bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl
@@ -23,8 +33,13 @@ const ProductsTable = () => {
             <h2 className='text-lg md:text-xl font-semibold text-gray-100 text-center 
             md:text-left'>Products List</h2>
             <div className='relative w-full md:w-auto'>
-                <input type="text" placeholder='Search Products...' className='bg-[#2f2f2f] text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 w-full
-                md:w-64 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-200 text-sm'/>
+                <input 
+                    type="text" 
+                    placeholder='Search Products...' 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className='bg-[#2f2f2f] text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 w-full
+                    md:w-64 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-200 text-sm'/>
                 <Search className='absolute left-3 top-2.5 text-gray-400' size={18}/>
                 <div className='overflow-x-auto'>
                     <table className='min-w-full divide-gray-700'>
@@ -47,7 +62,14 @@ const ProductsTable = () => {
                             </tr>
                         </thead>
                         <tbody className='divide-y divide-gray-700'>
-                            {products.map((product) => (
+                            {filteredProducts.length === 0 ? (
+                                <tr>
+                                    <td colSpan="7" className="px-6 py-8 text-center text-gray-400">
+                                        No products found matching "{searchTerm}"
+                                    </td>
+                                </tr>
+                            ) : (
+                                filteredProducts.map((product) => (
                                 <motion.tr
                                 key={product.id}
                                 initial={{ opacity: 0, y: 10 }}
@@ -85,7 +107,8 @@ const ProductsTable = () => {
                                             <div>Category: {product.category}</div>
                                             {["Price", "Stock", "Sales"].map((field) => (
                                                 <div key={field}>
-                                                    <span className='capitalize'>{field}: </span>
+                                                    <span className='capitalize'>
+                                                        {field}: {product[field]}{""} </span>
                                                     <span>{product[field.toLowerCase()]}</span>
                                                 </div>
                                             ))}
@@ -132,7 +155,8 @@ const ProductsTable = () => {
                                         </div>
                                     </td>
                                 </motion.tr>
-                            ))}
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
