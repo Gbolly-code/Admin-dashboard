@@ -4,13 +4,16 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import productData from "../public/data/data.json"
 import { motion } from 'framer-motion'
-import { Edit, Search, Trash2 } from 'lucide-react'
+import { Edit, Search, Trash2, Save, X } from 'lucide-react'
 
 
 const ProductsTable = () => {
 
     const [products, setProducts] = useState(productData.products)
     const [searchTerm, setSearchTerm] = useState('')
+    const [editingProduct, setEditingProduct] = useState(null)
+    const [editValues, setEditValues] = useState({})
+    const [deleteConfirm, setDeleteConfirm] = useState(null)
 
     const filteredProducts = products.filter(product => 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -21,13 +24,91 @@ const ProductsTable = () => {
         product.sales.toString().includes(searchTerm)
     )
 
+    // Edit functions
+    const handleEdit = (product) => {
+        setEditingProduct(product.id)
+        setEditValues({
+            price: product.price,
+            stock: product.stock,
+            sales: product.sales
+        })
+    }
+
+    const handleSave = (productId) => {
+        setProducts(products.map(product => 
+            product.id === productId 
+                ? { ...product, ...editValues }
+                : product
+        ))
+        setEditingProduct(null)
+        setEditValues({})
+    }
+
+    const handleCancel = () => {
+        setEditingProduct(null)
+        setEditValues({})
+    }
+
+    const handleInputChange = (field, value) => {
+        setEditValues(prev => ({
+            ...prev,
+            [field]: field === 'price' ? parseFloat(value) || 0 : parseInt(value) || 0
+        }))
+    }
+
+    // Delete functions
+    const handleDelete = (productId) => {
+        setDeleteConfirm(productId)
+    }
+
+    const confirmDelete = (productId) => {
+        setProducts(products.filter(product => product.id !== productId))
+        setDeleteConfirm(null)
+    }
+
+    const cancelDelete = () => {
+        setDeleteConfirm(null)
+    }
+
   return (
-    <motion.div className='bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl
-    p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0
-    mb-8'
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.2, duration: 0.5 }}>
+    <>
+      {/* Delete Confirmation Dialog */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <motion.div 
+            className="bg-[#1e1e1e] border border-[#1f1f1f] rounded-xl p-6 max-w-md mx-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">Confirm Delete</h3>
+            <p className="text-gray-300 mb-6">
+              Are you sure you want to delete this product? This action cannot be undone.
+            </p>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => confirmDelete(deleteConfirm)}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-200"
+              >
+                Delete
+              </button>
+              <button
+                onClick={cancelDelete}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition duration-200"
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      <motion.div className='bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl
+      p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0
+      mb-8'
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2, duration: 0.5 }}>
         <div className='flex flex-col md:flex-row justify-between items-center mb-6 gap-4 
         md:gap-0'>
             <h2 className='text-lg md:text-xl font-semibold text-gray-100 text-center 
@@ -95,23 +176,61 @@ const ProductsTable = () => {
                                             </div>
 
                                             <div className='flex space-x-1 -mt-1 -mr-1'>
-                                                <button className='text-indigo-500 hover:text-indigo-300'>
-                                                    <Edit size={16} />
-                                                </button>
-                                                <button className='text-red-500 hover:text-red-300'>
+                                                {editingProduct === product.id ? (
+                                                    <>
+                                                        <button 
+                                                            onClick={() => handleSave(product.id)}
+                                                            className='text-green-500 hover:text-green-300'
+                                                        >
+                                                            <Save size={16} />
+                                                        </button>
+                                                        <button 
+                                                            onClick={handleCancel}
+                                                            className='text-gray-500 hover:text-gray-300'
+                                                        >
+                                                            <X size={16} />
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <button 
+                                                        onClick={() => handleEdit(product)}
+                                                        className='text-indigo-500 hover:text-indigo-300'
+                                                    >
+                                                        <Edit size={16} />
+                                                    </button>
+                                                )}
+                                                <button 
+                                                    onClick={() => handleDelete(product.id)}
+                                                    className='text-red-500 hover:text-red-300'
+                                                >
                                                     <Trash2 size={16}/>
                                                 </button>
                                             </div>
                                         </div>
                                         <div className='mt-2 text-xs text-gray-300'>
                                             <div>Category: {product.category}</div>
-                                            {["Price", "Stock", "Sales"].map((field) => (
-                                                <div key={field}>
-                                                    <span className='capitalize'>
-                                                        {field}: {product[field]}{""} </span>
-                                                    <span>{product[field.toLowerCase()]}</span>
-                                                </div>
-                                            ))}
+                                            {editingProduct === product.id ? (
+                                                ["price", "stock", "sales"].map((field) => (
+                                                    <div key={field} className='flex items-center gap-2 mb-1'>
+                                                        <span className='capitalize text-gray-400'>{field}:</span>
+                                                        <input
+                                                            type={field === 'price' ? 'number' : 'number'}
+                                                            step={field === 'price' ? '0.01' : '1'}
+                                                            value={editValues[field] || ''}
+                                                            onChange={(e) => handleInputChange(field, e.target.value)}
+                                                            className='bg-[#2f2f2f] text-white text-xs px-2 py-1 rounded w-20 focus:outline-none focus:ring-1 focus:ring-gray-500'
+                                                        />
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                ["Price", "Stock", "Sales"].map((field) => (
+                                                    <div key={field}>
+                                                        <span className='capitalize'>
+                                                            {field}: {field === 'Price' ? `$${product[field.toLowerCase()].toFixed(2)}` : product[field.toLowerCase()]}
+                                                        </span>
+                                                    </div>
+                                                ))
+                                            )}
                                         </div>
                                     </td>
                                     
@@ -139,17 +258,49 @@ const ProductsTable = () => {
 
                                     {["price", "stock", "sales"].map((field) => (
                                         <td key={field} className='hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300'>
-                                            {field === "price" ? `$${product[field].toFixed(2)}`
-                                            : product[field]}
+                                            {editingProduct === product.id ? (
+                                                <input
+                                                    type="number"
+                                                    step={field === 'price' ? '0.01' : '1'}
+                                                    value={editValues[field] || ''}
+                                                    onChange={(e) => handleInputChange(field, e.target.value)}
+                                                    className='bg-[#2f2f2f] text-white text-sm px-2 py-1 rounded w-24 focus:outline-none focus:ring-1 focus:ring-gray-500'
+                                                />
+                                            ) : (
+                                                field === "price" ? `$${product[field].toFixed(2)}` : product[field]
+                                            )}
                                         </td>
                                     ))}
                                    
                                     <td className='hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium'>
                                         <div className='flex space-x-2'>
-                                            <button className='text-indigo-500 hover:text-indigo-300'>
-                                                <Edit size={16} />
-                                            </button>
-                                            <button className='text-red-500 hover:text-red-300'>
+                                            {editingProduct === product.id ? (
+                                                <>
+                                                    <button 
+                                                        onClick={() => handleSave(product.id)}
+                                                        className='text-green-500 hover:text-green-300'
+                                                    >
+                                                        <Save size={16} />
+                                                    </button>
+                                                    <button 
+                                                        onClick={handleCancel}
+                                                        className='text-gray-500 hover:text-gray-300'
+                                                    >
+                                                        <X size={16} />
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <button 
+                                                    onClick={() => handleEdit(product)}
+                                                    className='text-indigo-500 hover:text-indigo-300'
+                                                >
+                                                    <Edit size={16} />
+                                                </button>
+                                            )}
+                                            <button 
+                                                onClick={() => handleDelete(product.id)}
+                                                className='text-red-500 hover:text-red-300'
+                                            >
                                                 <Trash2 size={16}/>
                                             </button>
                                         </div>
@@ -162,7 +313,8 @@ const ProductsTable = () => {
                 </div>
             </div>
         </div>
-    </motion.div>
+      </motion.div>
+    </>
   )
 }
 
