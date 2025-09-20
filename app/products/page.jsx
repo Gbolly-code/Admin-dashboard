@@ -3,7 +3,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import StatCard from '@/components/StatCard'
-import { DollarSign, ShoppingBag, SquareActivity } from 'lucide-react'
+import { ChartBarStacked, DollarSign, ShoppingBag, SquareActivity } from 'lucide-react'
+import ProductsTable from '@/components/ProductsTable'
 
 const productsPage = () => {
   return (
@@ -16,11 +17,12 @@ const productsPage = () => {
                 <StatCard name="Total Products" icon={ShoppingBag} value={"4,352"}/>
                 <StatCard name="Total Stock" icon={SquareActivity} value={"18,450"}/>
                 <StatCard name="Total Sold" icon={DollarSign} value={"12,780"}/>
-                <StatCard name="Total Products" icon={ShoppingBag} value={"4, 352"}/>
+                <StatCard name="Total Categories" icon={ChartBarStacked} value={"8"}/>
             
             </motion.div>
+
+        <ProductsTable />
         </main>
-         
     </div>
   )
 }
