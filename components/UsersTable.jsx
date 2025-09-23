@@ -40,6 +40,23 @@ const UsersTable = () => {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 </div>
             </div>
+
+            <div className="overflow-x-auto">
+                <table className="min-w-full divide-gray-700">
+                    <thead>
+                        <tr>
+                            {["Name", "Email", "Phone Numbers", "Country", "Actions"].map(
+                                (header) => (
+                                <th key={header} 
+                                className="px-6 py-3 text-left text-xs font-medium
+                                text-gray-400 uppercase tracking-wider hidden md:table-cell">
+                                    {header}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </motion.div>
     )
 }
