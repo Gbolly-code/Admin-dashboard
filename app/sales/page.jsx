@@ -94,18 +94,26 @@ const SalesPage = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                     {/* Sales Overview Chart */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 0.5 }}
+                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ 
+                            delay: 0.4, 
+                            duration: 0.6,
+                            ease: [0.25, 0.46, 0.45, 0.94]
+                        }}
                     >
                         <SalesOverviewChart />
                     </motion.div>
 
                     {/* Category Distribution Chart */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6, duration: 0.5 }}
+                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ 
+                            delay: 0.6, 
+                            duration: 0.6,
+                            ease: [0.25, 0.46, 0.45, 0.94]
+                        }}
                     >
                         <CategoryDistributionChart />
                     </motion.div>
@@ -113,9 +121,13 @@ const SalesPage = () => {
 
                 {/* Product Performance Chart */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8, duration: 0.5 }}
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ 
+                        delay: 0.8, 
+                        duration: 0.6,
+                        ease: [0.25, 0.46, 0.45, 0.94]
+                    }}
                     className="mb-8"
                 >
                     <ProductPerformanceChart />
@@ -123,9 +135,13 @@ const SalesPage = () => {
 
                 {/* Sales by Category Table */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1, duration: 0.5 }}
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ 
+                        delay: 1.0, 
+                        duration: 0.6,
+                        ease: [0.25, 0.46, 0.45, 0.94]
+                    }}
                     className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0 mb-8"
                 >
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-100 mb-6">Sales by Category</h2>
@@ -152,10 +168,14 @@ const SalesPage = () => {
                                     return (
                                         <motion.tr 
                                             key={category.name}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.1, duration: 0.3 }}
-                                            className="hover:bg-[#2f2f2f] transition-colors"
+                                            initial={{ opacity: 0, y: 20, x: -20 }}
+                                            animate={{ opacity: 1, y: 0, x: 0 }}
+                                            transition={{ 
+                                                delay: 1.1 + (index * 0.15), 
+                                                duration: 0.5,
+                                                ease: [0.25, 0.46, 0.45, 0.94]
+                                            }}
+                                            className="hover:bg-[#2f2f2f] transition-colors hover:scale-[1.02] transform"
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                                                 {category.name}
@@ -184,9 +204,13 @@ const SalesPage = () => {
 
                 {/* Monthly Sales Breakdown */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.2, duration: 0.5 }}
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ 
+                        delay: 1.2, 
+                        duration: 0.6,
+                        ease: [0.25, 0.46, 0.45, 0.94]
+                    }}
                     className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0"
                 >
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-100 mb-6">Monthly Sales Breakdown</h2>
@@ -194,10 +218,14 @@ const SalesPage = () => {
                         {salesData?.sales?.map((month, index) => (
                             <motion.div
                                 key={month.name}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: index * 0.05, duration: 0.3 }}
-                                className="bg-[#2f2f2f] rounded-lg p-4 text-center hover:bg-[#3f3f3f] transition-colors"
+                                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                transition={{ 
+                                    delay: 1.4 + (index * 0.08), 
+                                    duration: 0.5,
+                                    ease: [0.25, 0.46, 0.45, 0.94]
+                                }}
+                                className="bg-[#2f2f2f] rounded-lg p-4 text-center hover:bg-[#3f3f3f] transition-colors hover:scale-105 transform"
                             >
                                 <div className="text-sm font-medium text-gray-400 mb-1">{month.name}</div>
                                 <div className="text-lg font-bold text-gray-100">${month.sales.toLocaleString()}</div>
