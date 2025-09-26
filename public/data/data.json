@@ -203,7 +203,7 @@
     { "name": "Clients", "icon": "Users", "href": "/users" },
     { "name": "Sales", "icon": "DollarSign", "href": "/sales" },
     { "name": "Orders", "icon": "ShoppingCart", "href": "/orders" },
-    { "name": "Settings", "icon": "Settings", "href": "" },
+    { "name": "Settings", "icon": "Settings", "href": "/settings" },
     { "name": "Messages", "icon": "Mail", "href": "" },
     { "name": "Notifications", "icon": "Bell", "href": "" },
     { "name": "Help", "icon": "Info", "href": "" }
