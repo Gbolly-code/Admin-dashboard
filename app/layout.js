@@ -2,7 +2,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
-import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,23 +22,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#121212] text-white`}
       >
-        <ThemeProvider>
-          {/* Full Page Layout */}
-          <div className="flex h-screen overflow-hidden bg-[#121212] dark:bg-[#121212] light:bg-gray-50 text-white dark:text-white light:text-gray-900">
-            {/* Sidebar (Always Visible) */}
-            <Sidebar />
+        {/* Full Page Layout */}
+        <div className="flex h-screen overflow-hidden">
+          {/* Sidebar (Always Visible) */}
+          <Sidebar />
 
-            {/* Main Content */}
-            <div className="flex flex-col flex-1 overflow-auto">
-              <div className="max-w-7xl mx-auto w-full">
-                <Header /> {/* Moves with content */}
-                <main>{children}</main>
-              </div>
+          {/* Main Content */}
+          <div className="flex flex-col flex-1 overflow-auto">
+            <div className="max-w-7xl mx-auto w-full">
+              <Header /> {/* Moves with content */}
+              <main>{children}</main>
             </div>
           </div>
-        </ThemeProvider>
+        </div>
       </body>
     </html>
   );

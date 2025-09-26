@@ -5,11 +5,9 @@ import Image from 'next/image'
 import productData from "../public/data/data.json"
 import { motion } from 'framer-motion'
 import { Edit, Search, Trash2, Save, X } from 'lucide-react'
-import { useTheme } from "@/contexts/ThemeContext"
 
 
 const ProductsTable = () => {
-    const { isLight } = useTheme()
 
     const [products, setProducts] = useState(productData.products)
     const [searchTerm, setSearchTerm] = useState('')
