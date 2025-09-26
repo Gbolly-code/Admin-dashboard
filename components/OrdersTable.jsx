@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Search, Edit, Trash2, Save, X } from "lucide-react"
+import { useTheme } from "@/contexts/ThemeContext"
 
 const OrdersTable = () => {
+    const { isLight } = useTheme()
 
     const [orders, setOrders] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
@@ -137,7 +139,11 @@ const OrdersTable = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }} 
-                className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0 mb-8">
+                className={`backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border mx-2 md:mx-0 mb-8 ${
+                    isLight 
+                        ? 'bg-white border-gray-200' 
+                        : 'bg-[#1e1e1e] border-[#1f1f1f]'
+                }`}>
                 
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 sm:gap-0">
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-100 text-center sm:text-left">Orders</h2>

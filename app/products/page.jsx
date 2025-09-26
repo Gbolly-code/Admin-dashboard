@@ -5,10 +5,15 @@ import { motion } from 'framer-motion'
 import StatCard from '@/components/StatCard'
 import { ChartBarStacked, DollarSign, ShoppingBag, SquareActivity } from 'lucide-react'
 import ProductsTable from '@/components/ProductsTable'
+import { useTheme } from '@/contexts/ThemeContext'
 
 const productsPage = () => {
+  const { isLight } = useTheme()
+  
   return (
-    <div className='flex-1 overflow-auto relative z-10'>
+    <div className={`flex-1 overflow-auto relative z-10 ${
+        isLight ? 'bg-gray-50' : 'bg-[#121212]'
+    }`}>
         <main className='max-w-7xl mx-auto py-6 px-4 lg:px-8'>
             <motion.div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8'
             initial={{ opacity: 0, y: 20 }}

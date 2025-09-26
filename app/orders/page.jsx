@@ -5,10 +5,15 @@ import OrdersTable from "@/components/OrdersTable"
 import { motion } from "framer-motion"
 import { ShoppingBag, CheckCircle, Clock, Ban } from "lucide-react"
 import React from "react"
+import { useTheme } from "@/contexts/ThemeContext"
 
 const OrdersPage = () => {
+    const { isLight } = useTheme()
+    
     return (
-        <div className="flex-1 overflow-auto relative z-10">
+        <div className={`flex-1 overflow-auto relative z-10 ${
+            isLight ? 'bg-gray-50' : 'bg-[#121212]'
+        }`}>
             <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
                 <motion.div 
                 initial={{ opacity: 0, y: 20 }}

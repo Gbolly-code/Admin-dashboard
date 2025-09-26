@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Search, Edit, Trash2, Save, X } from "lucide-react"
 import Image from "next/image"
+import { useTheme } from "@/contexts/ThemeContext"
 
 const UsersTable = () => {
+    const { isLight } = useTheme()
 
     const [clients, setClients] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
@@ -86,13 +88,21 @@ const UsersTable = () => {
             {deleteConfirm && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <motion.div 
-                        className="bg-[#1e1e1e] border border-[#1f1f1f] rounded-xl p-6 max-w-md mx-4"
+                        className={`border rounded-xl p-6 max-w-md mx-4 ${
+                            isLight 
+                                ? 'bg-white border-gray-200' 
+                                : 'bg-[#1e1e1e] border-[#1f1f1f]'
+                        }`}
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.2 }}
                     >
-                        <h3 className="text-lg font-semibold text-gray-100 mb-4">Confirm Delete</h3>
-                        <p className="text-gray-300 mb-6">
+                        <h3 className={`text-lg font-semibold mb-4 ${
+                            isLight ? 'text-gray-900' : 'text-gray-100'
+                        }`}>Confirm Delete</h3>
+                        <p className={`mb-6 ${
+                            isLight ? 'text-gray-600' : 'text-gray-300'
+                        }`}>
                             Are you sure you want to delete this client? This action cannot be undone.
                         </p>
                         <div className="flex space-x-3">
@@ -113,54 +123,68 @@ const UsersTable = () => {
                 </div>
             )}
 
-            <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }} 
-                className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0 mb-8">
+        <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }} 
+                className={`backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border mx-2 md:mx-0 mb-8 ${
+                    isLight 
+                        ? 'bg-white border-gray-200' 
+                        : 'bg-[#1e1e1e] border-[#1f1f1f]'
+                }`}>
                 
-                <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 sm:gap-0">
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-100 text-center sm:text-left">Clients</h2>
-                    <div className="relative w-full sm:w-auto">
-                        <input 
-                            type="text" 
-                            placeholder="Search Clients..."
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 sm:gap-0">
+                    <h2 className={`text-lg sm:text-xl font-semibold text-center sm:text-left ${
+                        isLight ? 'text-gray-900' : 'text-gray-100'
+                    }`}>Clients</h2>
+                <div className="relative w-full sm:w-auto">
+                    <input 
+                        type="text" 
+                        placeholder="Search Clients..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-[#2f2f2f] text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 
-                            w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-200 text-sm" 
+                            className={`rounded-lg pl-10 pr-4 py-2 w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-200 text-sm ${
+                                isLight 
+                                    ? 'bg-white text-gray-900 placeholder-gray-500 border border-gray-300' 
+                                    : 'bg-[#2f2f2f] text-white placeholder-gray-400'
+                            }`} 
                         />
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
+                            isLight ? 'text-gray-500' : 'text-gray-400'
+                        }`} />
                     </div>
-                </div>
+            </div>
 
-                <div className="overflow-x-auto">
-                    <table className="min-w-full divide-gray-700">
-                        <thead>
-                            <tr>
-                                {["Name", "Email", "Phone Numbers", "Country", "Actions"].map(
-                                    (header) => (
-                                    <th key={header} 
-                                    className="px-6 py-3 text-left text-xs font-medium
-                                    text-gray-400 uppercase tracking-wider hidden lg:table-cell">
-                                        {header}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
+            <div className="overflow-x-auto">
+                <table className="min-w-full divide-gray-700">
+                    <thead>
+                        <tr>
+                            {["Name", "Email", "Phone Numbers", "Country", "Actions"].map(
+                                (header) => (
+                                <th key={header} 
+                                    className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider hidden lg:table-cell ${
+                                        isLight ? 'text-gray-600' : 'text-gray-400'
+                                    }`}>
+                                    {header}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
 
-                        <tbody className="divide-y divide-gray-700">
+                    <tbody className="divide-y divide-gray-700">
                             {filteredClients.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5" className="px-6 py-8 text-center text-gray-400">
+                                    <td colSpan="5" className={`px-6 py-8 text-center ${
+                                        isLight ? 'text-gray-500' : 'text-gray-400'
+                                    }`}>
                                         No clients found matching "{searchTerm}"
                                     </td>
                                 </tr>
                             ) : (
                                 filteredClients.map((client, index) => (
-                                    <motion.tr key={client.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                            <motion.tr key={client.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1, duration: 0.3 }}
                                     className="flex flex-col lg:table-row mb-4 lg:mb-0 border-b lg:border-b-0 border-gray-700 p-2 lg:p-0">
 
@@ -176,7 +200,9 @@ const UsersTable = () => {
                                                         className="w-9 h-9 rounded-full"
                                                     />
                                                     <div className="ml-3">
-                                                        <div className="text-sm font-medium text-gray-100">
+                                                        <div className={`text-sm font-medium ${
+                                                            isLight ? 'text-gray-900' : 'text-gray-100'
+                                                        }`}>
                                                             {editingClient === client.id ? (
                                                                 <input
                                                                     type="text"
@@ -188,7 +214,9 @@ const UsersTable = () => {
                                                                 client.name
                                                             )}
                                                         </div>
-                                                        <div className="text-xs text-gray-400">
+                                                        <div className={`text-xs ${
+                                                            isLight ? 'text-gray-500' : 'text-gray-400'
+                                                        }`}>
                                                             {editingClient === client.id ? (
                                                                 <input
                                                                     type="email"
@@ -361,14 +389,14 @@ const UsersTable = () => {
                                                     <Trash2 size={16}/>
                                                 </button>
                                             </div>
-                                        </td>
-                                    </motion.tr>
+                                </td>
+                            </motion.tr>
                                 ))
                             )}
-                        </tbody>
-                    </table>
-                </div>
-            </motion.div>
+                    </tbody>
+                </table>
+            </div>
+        </motion.div>
         </>
     )
 }

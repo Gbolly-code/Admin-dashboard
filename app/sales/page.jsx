@@ -7,10 +7,12 @@ import ProductPerformanceChart from "@/components/ProductPerformanceChart"
 import { motion } from "framer-motion"
 import { DollarSign, TrendingUp, ShoppingBag, Target } from "lucide-react"
 import React, { useEffect, useState, useRef } from "react"
+import { useTheme } from "@/contexts/ThemeContext"
 
 const SalesPage = () => {
     const [salesData, setSalesData] = useState(null)
     const [loading, setLoading] = useState(true)
+    const { isLight } = useTheme()
     
     // Refs for scroll-triggered animations
     const headerRef = useRef(null)
@@ -173,7 +175,9 @@ const SalesPage = () => {
     const totalCategories = salesData?.categories?.length || 0
 
     return (
-        <div className="flex-1 overflow-auto relative z-10">
+        <div className={`flex-1 overflow-auto relative z-10 ${
+            isLight ? 'bg-gray-50' : 'bg-[#121212]'
+        }`}>
             <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
                 {/* Header */}
                 <motion.div 
