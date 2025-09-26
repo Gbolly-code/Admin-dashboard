@@ -142,7 +142,7 @@ const UsersTable = () => {
                                     (header) => (
                                     <th key={header} 
                                     className="px-6 py-3 text-left text-xs font-medium
-                                    text-gray-400 uppercase tracking-wider hidden md:table-cell">
+                                    text-gray-400 uppercase tracking-wider hidden lg:table-cell">
                                         {header}
                                     </th>
                                 ))}
@@ -162,10 +162,10 @@ const UsersTable = () => {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1, duration: 0.3 }}
-                                    className="flex flex-col sm:table-row mb-4 sm:mb-0 border-b sm:border-b-0 border-gray-700 p-2 sm:p-0">
+                                    className="flex flex-col lg:table-row mb-4 lg:mb-0 border-b lg:border-b-0 border-gray-700 p-2 lg:p-0">
 
                                         {/* Mobile view */}
-                                        <td className="sm:hidden px-3 py-2">
+                                        <td className="lg:hidden px-3 py-2">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center">
                                                     <Image 
@@ -264,7 +264,7 @@ const UsersTable = () => {
                                         </td>
 
                                         {/* Desktop view */}
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                                             <div className="flex items-center">
                                                 <Image 
                                                     src={client.image} 
@@ -290,7 +290,7 @@ const UsersTable = () => {
                                             </div>
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                                             {editingClient === client.id ? (
                                                 <input
                                                     type="email"
@@ -303,7 +303,7 @@ const UsersTable = () => {
                                             )}
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                                             {editingClient === client.id ? (
                                                 <input
                                                     type="text"
@@ -316,7 +316,7 @@ const UsersTable = () => {
                                             )}
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                                             {editingClient === client.id ? (
                                                 <input
                                                     type="text"
@@ -329,7 +329,7 @@ const UsersTable = () => {
                                             )}
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div className="flex space-x-2">
                                                 {editingClient === client.id ? (
                                                     <>

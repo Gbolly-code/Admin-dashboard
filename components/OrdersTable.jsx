@@ -162,7 +162,7 @@ const OrdersTable = () => {
                                     (header) => (
                                     <th key={header} 
                                     className="px-6 py-3 text-left text-xs font-medium
-                                    text-gray-400 uppercase tracking-wider hidden md:table-cell">
+                                    text-gray-400 uppercase tracking-wider hidden lg:table-cell">
                                         {header}
                                     </th>
                                 ))}
@@ -182,10 +182,10 @@ const OrdersTable = () => {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1, duration: 0.3 }}
-                                    className="flex flex-col sm:table-row mb-4 sm:mb-0 border-b sm:border-b-0 border-gray-700 p-2 sm:p-0">
+                                    className="flex flex-col lg:table-row mb-4 lg:mb-0 border-b lg:border-b-0 border-gray-700 p-2 lg:p-0">
 
                                         {/* Mobile view */}
-                                        <td className="sm:hidden px-3 py-2">
+                                        <td className="lg:hidden px-3 py-2">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex-1">
                                                     <div className="text-sm font-medium text-gray-100">
@@ -305,11 +305,11 @@ const OrdersTable = () => {
                                         </td>
 
                                         {/* Desktop view */}
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                                             {order.id}
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                                             <div>
                                                 <div className="font-medium text-gray-100">
                                                     {editingOrder === order.id ? (
@@ -338,7 +338,7 @@ const OrdersTable = () => {
                                             </div>
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                                             {editingOrder === order.id ? (
                                                 <input
                                                     type="number"
@@ -352,7 +352,7 @@ const OrdersTable = () => {
                                             )}
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm">
                                             {editingOrder === order.id ? (
                                                 <select
                                                     value={editValues.status || ''}
@@ -371,7 +371,7 @@ const OrdersTable = () => {
                                             )}
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                                             {editingOrder === order.id ? (
                                                 <input
                                                     type="text"
@@ -384,7 +384,7 @@ const OrdersTable = () => {
                                             )}
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                                             {editingOrder === order.id ? (
                                                 <input
                                                     type="text"
@@ -397,7 +397,7 @@ const OrdersTable = () => {
                                             )}
                                         </td>
                                         
-                                        <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div className="flex space-x-2">
                                                 {editingOrder === order.id ? (
                                                     <>
