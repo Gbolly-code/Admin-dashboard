@@ -22,11 +22,11 @@ const SalesPage = () => {
     
     // State for scroll-triggered animations (start with true for fallback)
     const [headerInView, setHeaderInView] = useState(true)
-    const [statsInView, setStatsInView] = useState(false)
-    const [chartsInView, setChartsInView] = useState(false)
-    const [productPerfInView, setProductPerfInView] = useState(false)
-    const [categoryTableInView, setCategoryTableInView] = useState(false)
-    const [monthlyBreakdownInView, setMonthlyBreakdownInView] = useState(false)
+    const [statsInView, setStatsInView] = useState(true)
+    const [chartsInView, setChartsInView] = useState(true)
+    const [productPerfInView, setProductPerfInView] = useState(true)
+    const [categoryTableInView, setCategoryTableInView] = useState(true)
+    const [monthlyBreakdownInView, setMonthlyBreakdownInView] = useState(true)
     
     // Animation keys to force re-animation
     const [animationKey, setAnimationKey] = useState(0)
@@ -34,8 +34,10 @@ const SalesPage = () => {
     useEffect(() => {
         const fetchSalesData = async () => {
             try {
+                console.log("Fetching sales data...")
                 const res = await fetch("/data/data.json")
                 const data = await res.json()
+                console.log("Sales data loaded:", data)
                 setSalesData(data)
                 setLoading(false)
             } catch (error) {
@@ -48,9 +50,11 @@ const SalesPage = () => {
 
     // Intersection Observer for scroll animations
     useEffect(() => {
+        if (!salesData) return
+
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: "-100px 0px -100px 0px"
+            rootMargin: "-50px 0px -50px 0px"
         }
 
         const observer = new IntersectionObserver((entries) => {
@@ -105,24 +109,32 @@ const SalesPage = () => {
             })
         }, observerOptions)
 
-        // Observe all sections
-        const sections = [
-            { ref: headerRef, id: 'header' },
-            { ref: statsRef, id: 'stats' },
-            { ref: chartsRef, id: 'charts' },
-            { ref: productPerfRef, id: 'productPerf' },
-            { ref: categoryTableRef, id: 'categoryTable' },
-            { ref: monthlyBreakdownRef, id: 'monthlyBreakdown' }
-        ]
+        // Observe all sections with a small delay to ensure refs are set
+        const observeSections = () => {
+            const sections = [
+                { ref: headerRef, id: 'header' },
+                { ref: statsRef, id: 'stats' },
+                { ref: chartsRef, id: 'charts' },
+                { ref: productPerfRef, id: 'productPerf' },
+                { ref: categoryTableRef, id: 'categoryTable' },
+                { ref: monthlyBreakdownRef, id: 'monthlyBreakdown' }
+            ]
 
-        sections.forEach(({ ref, id }) => {
-            if (ref.current) {
-                ref.current.setAttribute('data-section', id)
-                observer.observe(ref.current)
-            }
-        })
+            sections.forEach(({ ref, id }) => {
+                if (ref.current) {
+                    ref.current.setAttribute('data-section', id)
+                    observer.observe(ref.current)
+                }
+            })
+        }
 
-        return () => observer.disconnect()
+        // Small delay to ensure DOM is ready
+        const timeoutId = setTimeout(observeSections, 100)
+
+        return () => {
+            clearTimeout(timeoutId)
+            observer.disconnect()
+        }
     }, [salesData])
 
     if (loading) {
