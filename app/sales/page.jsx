@@ -4,7 +4,7 @@ import StatCard from "@/components/StatCard"
 import SalesOverviewChart from "@/components/SalesOverviewChart"
 import CategoryDistributionChart from "@/components/CategoryDistributionChart"
 import ProductPerformanceChart from "@/components/ProductPerformanceChart"
-import { motion, useInView } from "framer-motion"
+import { motion } from "framer-motion"
 import { DollarSign, TrendingUp, ShoppingBag, Target } from "lucide-react"
 import React, { useEffect, useState, useRef } from "react"
 
@@ -20,13 +20,13 @@ const SalesPage = () => {
     const categoryTableRef = useRef(null)
     const monthlyBreakdownRef = useRef(null)
     
-    // InView hooks
-    const headerInView = useInView(headerRef, { once: true, margin: "-100px" })
-    const statsInView = useInView(statsRef, { once: true, margin: "-100px" })
-    const chartsInView = useInView(chartsRef, { once: true, margin: "-100px" })
-    const productPerfInView = useInView(productPerfRef, { once: true, margin: "-100px" })
-    const categoryTableInView = useInView(categoryTableRef, { once: true, margin: "-100px" })
-    const monthlyBreakdownInView = useInView(monthlyBreakdownRef, { once: true, margin: "-100px" })
+    // State for scroll-triggered animations (start with true for fallback)
+    const [headerInView, setHeaderInView] = useState(true)
+    const [statsInView, setStatsInView] = useState(false)
+    const [chartsInView, setChartsInView] = useState(false)
+    const [productPerfInView, setProductPerfInView] = useState(false)
+    const [categoryTableInView, setCategoryTableInView] = useState(false)
+    const [monthlyBreakdownInView, setMonthlyBreakdownInView] = useState(false)
 
     useEffect(() => {
         const fetchSalesData = async () => {
@@ -43,12 +43,79 @@ const SalesPage = () => {
         fetchSalesData()
     }, [])
 
+    // Intersection Observer for scroll animations
+    useEffect(() => {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "-100px 0px -100px 0px"
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const targetId = entry.target.getAttribute('data-section')
+                    switch (targetId) {
+                        case 'header':
+                            setHeaderInView(true)
+                            break
+                        case 'stats':
+                            setStatsInView(true)
+                            break
+                        case 'charts':
+                            setChartsInView(true)
+                            break
+                        case 'productPerf':
+                            setProductPerfInView(true)
+                            break
+                        case 'categoryTable':
+                            setCategoryTableInView(true)
+                            break
+                        case 'monthlyBreakdown':
+                            setMonthlyBreakdownInView(true)
+                            break
+                    }
+                }
+            })
+        }, observerOptions)
+
+        // Observe all sections
+        const sections = [
+            { ref: headerRef, id: 'header' },
+            { ref: statsRef, id: 'stats' },
+            { ref: chartsRef, id: 'charts' },
+            { ref: productPerfRef, id: 'productPerf' },
+            { ref: categoryTableRef, id: 'categoryTable' },
+            { ref: monthlyBreakdownRef, id: 'monthlyBreakdown' }
+        ]
+
+        sections.forEach(({ ref, id }) => {
+            if (ref.current) {
+                ref.current.setAttribute('data-section', id)
+                observer.observe(ref.current)
+            }
+        })
+
+        return () => observer.disconnect()
+    }, [salesData])
+
     if (loading) {
         return (
             <div className="flex-1 overflow-auto relative z-10">
                 <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
                     <div className="flex items-center justify-center h-64">
                         <div className="text-gray-400">Loading sales data...</div>
+                    </div>
+                </main>
+            </div>
+        )
+    }
+
+    if (!salesData) {
+        return (
+            <div className="flex-1 overflow-auto relative z-10">
+                <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+                    <div className="flex items-center justify-center h-64">
+                        <div className="text-red-400">Error loading sales data</div>
                     </div>
                 </main>
             </div>
