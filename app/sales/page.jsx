@@ -4,13 +4,29 @@ import StatCard from "@/components/StatCard"
 import SalesOverviewChart from "@/components/SalesOverviewChart"
 import CategoryDistributionChart from "@/components/CategoryDistributionChart"
 import ProductPerformanceChart from "@/components/ProductPerformanceChart"
-import { motion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { DollarSign, TrendingUp, ShoppingBag, Target } from "lucide-react"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 
 const SalesPage = () => {
     const [salesData, setSalesData] = useState(null)
     const [loading, setLoading] = useState(true)
+    
+    // Refs for scroll-triggered animations
+    const headerRef = useRef(null)
+    const statsRef = useRef(null)
+    const chartsRef = useRef(null)
+    const productPerfRef = useRef(null)
+    const categoryTableRef = useRef(null)
+    const monthlyBreakdownRef = useRef(null)
+    
+    // InView hooks
+    const headerInView = useInView(headerRef, { once: true, margin: "-100px" })
+    const statsInView = useInView(statsRef, { once: true, margin: "-100px" })
+    const chartsInView = useInView(chartsRef, { once: true, margin: "-100px" })
+    const productPerfInView = useInView(productPerfRef, { once: true, margin: "-100px" })
+    const categoryTableInView = useInView(categoryTableRef, { once: true, margin: "-100px" })
+    const monthlyBreakdownInView = useInView(monthlyBreakdownRef, { once: true, margin: "-100px" })
 
     useEffect(() => {
         const fetchSalesData = async () => {
@@ -52,9 +68,10 @@ const SalesPage = () => {
             <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
                 {/* Header */}
                 <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                    ref={headerRef}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                     className="mb-8"
                 >
                     <h1 className="text-3xl font-bold text-gray-100 mb-2">Sales Analytics</h1>
@@ -63,9 +80,10 @@ const SalesPage = () => {
 
                 {/* Stat Cards */}
                 <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
+                    ref={statsRef}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8"
                 >
                     <StatCard 
@@ -91,13 +109,19 @@ const SalesPage = () => {
                 </motion.div>
 
                 {/* Charts Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <motion.div 
+                    ref={chartsRef}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={chartsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"
+                >
                     {/* Sales Overview Chart */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={chartsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
                         transition={{ 
-                            delay: 0.4, 
+                            delay: 0.2, 
                             duration: 0.6,
                             ease: [0.25, 0.46, 0.45, 0.94]
                         }}
@@ -107,24 +131,24 @@ const SalesPage = () => {
 
                     {/* Category Distribution Chart */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={chartsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
                         transition={{ 
-                            delay: 0.6, 
+                            delay: 0.4, 
                             duration: 0.6,
                             ease: [0.25, 0.46, 0.45, 0.94]
                         }}
                     >
                         <CategoryDistributionChart />
                     </motion.div>
-                </div>
+                </motion.div>
 
                 {/* Product Performance Chart */}
                 <motion.div
+                    ref={productPerfRef}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    animate={productPerfInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
                     transition={{ 
-                        delay: 0.8, 
                         duration: 0.6,
                         ease: [0.25, 0.46, 0.45, 0.94]
                     }}
@@ -135,10 +159,10 @@ const SalesPage = () => {
 
                 {/* Sales by Category Table */}
                 <motion.div
+                    ref={categoryTableRef}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    animate={categoryTableInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
                     transition={{ 
-                        delay: 1.0, 
                         duration: 0.6,
                         ease: [0.25, 0.46, 0.45, 0.94]
                     }}
@@ -169,9 +193,9 @@ const SalesPage = () => {
                                         <motion.tr 
                                             key={category.name}
                                             initial={{ opacity: 0, y: 20, x: -20 }}
-                                            animate={{ opacity: 1, y: 0, x: 0 }}
+                                            animate={categoryTableInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: 20, x: -20 }}
                                             transition={{ 
-                                                delay: 1.1 + (index * 0.15), 
+                                                delay: index * 0.1, 
                                                 duration: 0.5,
                                                 ease: [0.25, 0.46, 0.45, 0.94]
                                             }}
@@ -204,10 +228,10 @@ const SalesPage = () => {
 
                 {/* Monthly Sales Breakdown */}
                 <motion.div
+                    ref={monthlyBreakdownRef}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    animate={monthlyBreakdownInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
                     transition={{ 
-                        delay: 1.2, 
                         duration: 0.6,
                         ease: [0.25, 0.46, 0.45, 0.94]
                     }}
@@ -219,9 +243,9 @@ const SalesPage = () => {
                             <motion.div
                                 key={month.name}
                                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                animate={monthlyBreakdownInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
                                 transition={{ 
-                                    delay: 1.4 + (index * 0.08), 
+                                    delay: index * 0.08, 
                                     duration: 0.5,
                                     ease: [0.25, 0.46, 0.45, 0.94]
                                 }}
