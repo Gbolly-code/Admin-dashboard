@@ -27,6 +27,9 @@ const SalesPage = () => {
     const [productPerfInView, setProductPerfInView] = useState(false)
     const [categoryTableInView, setCategoryTableInView] = useState(false)
     const [monthlyBreakdownInView, setMonthlyBreakdownInView] = useState(false)
+    
+    // Animation keys to force re-animation
+    const [animationKey, setAnimationKey] = useState(0)
 
     useEffect(() => {
         const fetchSalesData = async () => {
@@ -52,8 +55,10 @@ const SalesPage = () => {
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
+                const targetId = entry.target.getAttribute('data-section')
+                
                 if (entry.isIntersecting) {
-                    const targetId = entry.target.getAttribute('data-section')
+                    // Section is coming into view - trigger animation
                     switch (targetId) {
                         case 'header':
                             setHeaderInView(true)
@@ -72,6 +77,28 @@ const SalesPage = () => {
                             break
                         case 'monthlyBreakdown':
                             setMonthlyBreakdownInView(true)
+                            break
+                    }
+                } else {
+                    // Section is going out of view - reset animation state
+                    switch (targetId) {
+                        case 'header':
+                            setHeaderInView(false)
+                            break
+                        case 'stats':
+                            setStatsInView(false)
+                            break
+                        case 'charts':
+                            setChartsInView(false)
+                            break
+                        case 'productPerf':
+                            setProductPerfInView(false)
+                            break
+                        case 'categoryTable':
+                            setCategoryTableInView(false)
+                            break
+                        case 'monthlyBreakdown':
+                            setMonthlyBreakdownInView(false)
                             break
                     }
                 }
@@ -147,6 +174,7 @@ const SalesPage = () => {
 
                 {/* Stat Cards */}
                 <motion.div 
+                    key={`stats-${statsInView ? 'in' : 'out'}`}
                     ref={statsRef}
                     initial={{ opacity: 0, y: 30 }}
                     animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -177,6 +205,7 @@ const SalesPage = () => {
 
                 {/* Charts Grid */}
                 <motion.div 
+                    key={`charts-${chartsInView ? 'in' : 'out'}`}
                     ref={chartsRef}
                     initial={{ opacity: 0, y: 30 }}
                     animate={chartsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -212,6 +241,7 @@ const SalesPage = () => {
 
                 {/* Product Performance Chart */}
                 <motion.div
+                    key={`productPerf-${productPerfInView ? 'in' : 'out'}`}
                     ref={productPerfRef}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={productPerfInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
@@ -226,6 +256,7 @@ const SalesPage = () => {
 
                 {/* Sales by Category Table */}
                 <motion.div
+                    key={`categoryTable-${categoryTableInView ? 'in' : 'out'}`}
                     ref={categoryTableRef}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={categoryTableInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
@@ -258,11 +289,11 @@ const SalesPage = () => {
                                     
                                     return (
                                         <motion.tr 
-                                            key={category.name}
+                                            key={`${category.name}-${categoryTableInView ? 'in' : 'out'}-${index}`}
                                             initial={{ opacity: 0, y: 20, x: -20 }}
                                             animate={categoryTableInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: 20, x: -20 }}
                                             transition={{ 
-                                                delay: index * 0.1, 
+                                                delay: categoryTableInView ? index * 0.1 : 0, 
                                                 duration: 0.5,
                                                 ease: [0.25, 0.46, 0.45, 0.94]
                                             }}
@@ -295,6 +326,7 @@ const SalesPage = () => {
 
                 {/* Monthly Sales Breakdown */}
                 <motion.div
+                    key={`monthlyBreakdown-${monthlyBreakdownInView ? 'in' : 'out'}`}
                     ref={monthlyBreakdownRef}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={monthlyBreakdownInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
@@ -308,11 +340,11 @@ const SalesPage = () => {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         {salesData?.sales?.map((month, index) => (
                             <motion.div
-                                key={month.name}
+                                key={`${month.name}-${monthlyBreakdownInView ? 'in' : 'out'}-${index}`}
                                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                                 animate={monthlyBreakdownInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
                                 transition={{ 
-                                    delay: index * 0.08, 
+                                    delay: monthlyBreakdownInView ? index * 0.08 : 0, 
                                     duration: 0.5,
                                     ease: [0.25, 0.46, 0.45, 0.94]
                                 }}
