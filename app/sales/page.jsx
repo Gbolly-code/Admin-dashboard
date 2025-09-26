@@ -28,6 +28,9 @@ const SalesPage = () => {
     const [categoryTableInView, setCategoryTableInView] = useState(true)
     const [monthlyBreakdownInView, setMonthlyBreakdownInView] = useState(true)
     
+    // Simple animation states - all visible by default
+    const [animationsEnabled, setAnimationsEnabled] = useState(false)
+    
     // Animation keys to force re-animation
     const [animationKey, setAnimationKey] = useState(0)
 
@@ -186,11 +189,10 @@ const SalesPage = () => {
 
                 {/* Stat Cards */}
                 <motion.div 
-                    key={`stats-${statsInView ? 'in' : 'out'}`}
                     ref={statsRef}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                    transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    initial={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8"
                 >
                     <StatCard 
@@ -217,50 +219,29 @@ const SalesPage = () => {
 
                 {/* Charts Grid */}
                 <motion.div 
-                    key={`charts-${chartsInView ? 'in' : 'out'}`}
                     ref={chartsRef}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={chartsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                    transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    initial={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
                     className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"
                 >
                     {/* Sales Overview Chart */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={chartsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-                        transition={{ 
-                            delay: 0.2, 
-                            duration: 0.6,
-                            ease: [0.25, 0.46, 0.45, 0.94]
-                        }}
-                    >
+                    <div>
                         <SalesOverviewChart />
-                    </motion.div>
+                    </div>
 
                     {/* Category Distribution Chart */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={chartsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-                        transition={{ 
-                            delay: 0.4, 
-                            duration: 0.6,
-                            ease: [0.25, 0.46, 0.45, 0.94]
-                        }}
-                    >
+                    <div>
                         <CategoryDistributionChart />
-                    </motion.div>
+                    </div>
                 </motion.div>
 
                 {/* Product Performance Chart */}
                 <motion.div
-                    key={`productPerf-${productPerfInView ? 'in' : 'out'}`}
                     ref={productPerfRef}
-                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                    animate={productPerfInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
-                    transition={{ 
-                        duration: 0.6,
-                        ease: [0.25, 0.46, 0.45, 0.94]
-                    }}
+                    initial={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
                     className="mb-8"
                 >
                     <ProductPerformanceChart />
@@ -268,14 +249,10 @@ const SalesPage = () => {
 
                 {/* Sales by Category Table */}
                 <motion.div
-                    key={`categoryTable-${categoryTableInView ? 'in' : 'out'}`}
                     ref={categoryTableRef}
-                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                    animate={categoryTableInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
-                    transition={{ 
-                        duration: 0.6,
-                        ease: [0.25, 0.46, 0.45, 0.94]
-                    }}
+                    initial={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
                     className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0 mb-8"
                 >
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-100 mb-6">Sales by Category</h2>
@@ -300,15 +277,8 @@ const SalesPage = () => {
                                     const percentage = ((category.value / totalCategorySales) * 100).toFixed(1)
                                     
                                     return (
-                                        <motion.tr 
-                                            key={`${category.name}-${categoryTableInView ? 'in' : 'out'}-${index}`}
-                                            initial={{ opacity: 0, y: 20, x: -20 }}
-                                            animate={categoryTableInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: 20, x: -20 }}
-                                            transition={{ 
-                                                delay: categoryTableInView ? index * 0.1 : 0, 
-                                                duration: 0.5,
-                                                ease: [0.25, 0.46, 0.45, 0.94]
-                                            }}
+                                        <tr 
+                                            key={category.name}
                                             className="hover:bg-[#2f2f2f] transition-colors hover:scale-[1.02] transform"
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
@@ -328,7 +298,7 @@ const SalesPage = () => {
                                                     <span className="text-xs text-gray-400">{percentage}%</span>
                                                 </div>
                                             </td>
-                                        </motion.tr>
+                                        </tr>
                                     )
                                 })}
                             </tbody>
@@ -338,33 +308,22 @@ const SalesPage = () => {
 
                 {/* Monthly Sales Breakdown */}
                 <motion.div
-                    key={`monthlyBreakdown-${monthlyBreakdownInView ? 'in' : 'out'}`}
                     ref={monthlyBreakdownRef}
-                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                    animate={monthlyBreakdownInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
-                    transition={{ 
-                        duration: 0.6,
-                        ease: [0.25, 0.46, 0.45, 0.94]
-                    }}
+                    initial={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
                     className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border border-[#1f1f1f] mx-2 md:mx-0"
                 >
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-100 mb-6">Monthly Sales Breakdown</h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         {salesData?.sales?.map((month, index) => (
-                            <motion.div
-                                key={`${month.name}-${monthlyBreakdownInView ? 'in' : 'out'}-${index}`}
-                                initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                                animate={monthlyBreakdownInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
-                                transition={{ 
-                                    delay: monthlyBreakdownInView ? index * 0.08 : 0, 
-                                    duration: 0.5,
-                                    ease: [0.25, 0.46, 0.45, 0.94]
-                                }}
+                            <div
+                                key={month.name}
                                 className="bg-[#2f2f2f] rounded-lg p-4 text-center hover:bg-[#3f3f3f] transition-colors hover:scale-105 transform"
                             >
                                 <div className="text-sm font-medium text-gray-400 mb-1">{month.name}</div>
                                 <div className="text-lg font-bold text-gray-100">${month.sales.toLocaleString()}</div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </motion.div>
