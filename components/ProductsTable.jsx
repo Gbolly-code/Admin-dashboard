@@ -161,7 +161,7 @@ const ProductsTable = () => {
                                     <td className='md:hidden px-3 py-2'>
                                         <div className='flex items-center justify-between'>
                                             <div className='flex items-center'>
-                                                <Image src={product.image} 
+                                                <Image src={`/Images/${product.image.split('/').pop()}`} 
                                                 alt={product.name} 
                                                 width={36}
                                                 height={36}
@@ -237,7 +237,7 @@ const ProductsTable = () => {
                                     {/* Desktop view */}
                                     <td className='hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100'>
                                         <div className='flex items-center'>
-                                            <Image src={product.image} 
+                                            <Image src={`/Images/${product.image.split('/').pop()}`} 
                                                 alt={product.name} 
                                                 width={40}
                                                 height={40}

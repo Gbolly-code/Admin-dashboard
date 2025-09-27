@@ -31,8 +31,8 @@ export default function RootLayout({ children }) {
 
           {/* Main Content */}
           <div className="flex flex-col flex-1 overflow-auto">
-            <div className="max-w-7xl mx-auto w-full">
-              <Header /> {/* Moves with content */}
+            <Header /> {/* Fixed header */}
+            <div className="max-w-7xl mx-auto w-full pt-24">
               <main>{children}</main>
             </div>
           </div>

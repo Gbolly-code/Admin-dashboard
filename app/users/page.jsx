@@ -60,8 +60,8 @@ const UsersPage = () => {
             >
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-white mb-2">Users Management</h1>
-                  <p className="text-gray-400">Manage your customers and their information</p>
+                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Users Management</h1>
+                  <p className="text-sm sm:text-base text-gray-400">Manage your customers and their information</p>
                 </div>
                 <div className="flex items-center space-x-3">
                   <button className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
@@ -84,7 +84,7 @@ const UsersPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
+              className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 md:mb-8"
             >
               {[
                 { title: "Total Users", value: users.length, icon: Users, color: "text-blue-400", bgColor: "bg-blue-400/10" },
@@ -92,14 +92,14 @@ const UsersPage = () => {
                 { title: "New This Month", value: Math.floor(users.length * 0.2), icon: UserPlus, color: "text-purple-400", bgColor: "bg-purple-400/10" },
                 { title: "Returning Users", value: Math.floor(users.length * 0.5), icon: RotateCcw, color: "text-orange-400", bgColor: "bg-orange-400/10" }
               ].map((stat, index) => (
-                <div key={stat.title} className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-6 border border-[#1f1f1f]">
+                <div key={stat.title} className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-3 sm:p-4 md:p-6 border border-[#1f1f1f]">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">{stat.title}</p>
-                      <p className="text-2xl font-bold text-white mt-1">{stat.value}</p>
+                      <p className="text-gray-400 text-xs sm:text-sm">{stat.title}</p>
+                      <p className="text-lg sm:text-xl md:text-2xl font-bold text-white mt-1">{stat.value}</p>
                     </div>
-                    <div className={`p-3 rounded-full ${stat.bgColor}`}>
-                      <stat.icon size={24} className={stat.color} />
+                    <div className={`p-2 sm:p-3 rounded-full ${stat.bgColor}`}>
+                      <stat.icon size={16} className={`${stat.color} sm:w-6 sm:h-6`} />
                     </div>
                   </div>
                 </div>
@@ -147,7 +147,7 @@ const UsersPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
             >
               {filteredUsers.map((user, index) => {
                 const statusColors = getStatusColor(user)
@@ -159,12 +159,12 @@ const UsersPage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-                    className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-6 border border-[#1f1f1f] hover:border-[#333] transition-all duration-300"
+                    className="bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 sm:p-6 border border-[#1f1f1f] hover:border-[#333] transition-all duration-300"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-3">
                         <Image 
-                          src={user.image} 
+                          src={`/Images/${user.image.split('/').pop()}`} 
                           alt={user.name} 
                           width={50} 
                           height={50} 

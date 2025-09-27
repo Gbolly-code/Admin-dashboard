@@ -64,10 +64,10 @@ const OverviewPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="mb-8"
+              className="mb-6 md:mb-8"
             >
-              <h1 className="text-3xl font-bold text-white mb-2">Welcome back, John!</h1>
-              <p className="text-gray-400">Here's what's happening with your business today.</p>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Welcome back, John!</h1>
+              <p className="text-sm sm:text-base text-gray-400">Here's what's happening with your business today.</p>
             </motion.div>
 
             {/* Stats Grid */}
@@ -84,34 +84,35 @@ const OverviewPage = () => {
                     transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
                     className='bg-[#1e1e1e] backdrop-blur-md overflow-hidden shadow-lg rounded-xl border border-[#1f1f1f] hover:border-[#333] transition-all duration-300'
                   >
-                    <div className='px-4 py-5 sm:p-6'>
+                    <div className='px-3 py-4 sm:px-4 sm:py-5 md:p-6'>
                       <div className="flex items-center justify-between">
-                        <span className='flex items-center text-sm font-medium text-gray-300'>
-                          <stat.icon size={20} className="mr-2"/>
-                          {stat.name}
+                        <span className='flex items-center text-xs sm:text-sm font-medium text-gray-300'>
+                          <stat.icon size={16} className="mr-1 sm:mr-2"/>
+                          <span className="hidden sm:inline">{stat.name}</span>
+                          <span className="sm:hidden text-xs">{stat.name.split(' ')[0]}</span>
                         </span>
                         <div className={`flex items-center px-2 py-1 rounded-full text-xs font-medium ${stat.bgColor}`}>
                           {stat.growth > 0 ? (
                             <>
-                              <TrendingUp size={12} className="mr-1" />
+                              <TrendingUp size={10} className="mr-1" />
                               <span className={stat.color}>+{stat.growth}%</span>
                             </>
                           ) : (
                             <>
-                              <TrendingDown size={12} className="mr-1" />
+                              <TrendingDown size={10} className="mr-1" />
                               <span className="text-red-400">{stat.growth}%</span>
                             </>
                           )}
                         </div>
                       </div>
-                      <p className='mt-2 text-3xl font-semibold text-white'>{stat.value}</p>
+                      <p className='mt-2 text-xl sm:text-2xl md:text-3xl font-semibold text-white'>{stat.value}</p>
                     </div>
                   </motion.div>
                 ))}
             </motion.div>
 
             {/* Charts Section */}
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 md:mb-8'>
               <SalesOverviewChart />
               <CategoryDistributionChart />
               <OrderDistributionChart/>
@@ -119,7 +120,7 @@ const OverviewPage = () => {
             </div>
 
             {/* Recent Activity & Quick Actions */}
-            <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+            <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8'>
               {/* Recent Activity */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}

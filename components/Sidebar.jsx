@@ -45,12 +45,12 @@ const Sidebar = () => {
                            {isSidebarOpen && (
                             <span className='ml-4 whitespace-nowrap'>{item.name}</span>
                            )}
-                            {/* Tooltip for when sidebar is closed */}
+                            {/* Tooltip for when sidebar is closed - Touch friendly */}
                             {!isSidebarOpen && (
-                                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-[#1a1a1a] text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap z-[9999] shadow-xl border border-[#333] min-w-max">
+                                <div className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-[#1a1a1a] text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap z-[9999] shadow-xl border border-[#333] min-w-max">
                                     {item.name}
-                                    {/* Arrow pointing down to the icon */}
-                                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-[#1a1a1a]"></div>
+                                    {/* Arrow pointing left to the icon */}
+                                    <div className="absolute right-full top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[6px] border-t-transparent border-b-transparent border-r-[#1a1a1a]"></div>
                                 </div>
                             )}
                         </div>

@@ -14,26 +14,26 @@ const SalesOverviewChart = () => {
        .then((data) => setSalesData(data.sales))
     }, [])
   return (
-    <motion.div className='bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-4 md:p-6 border border-[#1f1f1f] 
+    <motion.div className='bg-[#1e1e1e] backdrop-blur-md shadow-lg rounded-xl p-3 sm:p-4 md:p-6 border border-[#1f1f1f] 
     mx-2 md:mx-0'
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay: 0.2 }}>
-        <h2 className='text-base md:text-lg font-medium mb-4 text-gray-100 text-center md:text-left'>
+        <h2 className='text-sm sm:text-base md:text-lg font-medium mb-3 sm:mb-4 text-gray-100 text-center md:text-left'>
             Sales Overview
         </h2>
 
-        <div className='h-64 md:h-80'>
+        <div className='h-48 sm:h-64 md:h-80'>
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={salesData}>
                     <CartesianGrid strokeDasharray="3 3" stroke='#4b5563' />
                     <XAxis dataKey="name" 
                     stroke='#9ca3af' 
-                    tick={{ fontSize: 12 }} 
+                    tick={{ fontSize: 10 }} 
                     interval="preserveStartEnd" />
                     <YAxis stroke='#9ca3af'
-                    tick={{ fontSize: 12 }}
-                    width={40} />
+                    tick={{ fontSize: 10 }}
+                    width={30} />
                     <Tooltip contentStyle={{
                         backgroundColor: "rgba(31, 41, 55, 0.8)",
                         borderColor: "#4b5563",
