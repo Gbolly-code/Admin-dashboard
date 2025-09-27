@@ -28,7 +28,7 @@ const Sidebar = () => {
         fetch("/data/data.json").then((res) => res.json()).then((data) => setSidebarItems(data.sidebarItems))
     }, [])
   return (
-    <div className={`relative z-[100] transition-all duration-300 ease-in-out flex-shrink-0 ${isSidebarOpen ? 'w-64' : 'w-20' }`}>
+    <div className={`relative z-[100] transition-all duration-300 ease-in-out flex-shrink-0 ${isSidebarOpen ? 'w-64' : 'w-0' }`}>
        <div className='h-full bg-[#1e1e1e] backdrop-blur-md flex flex-col border-r border-[#2f2f2f]'>
         
         {/* Fixed Toggle Button at Top */}
@@ -59,6 +59,16 @@ const Sidebar = () => {
           </nav>
         )}
        </div>
+
+        {/* Floating Toggle Button - Shows when sidebar is closed */}
+        {!isSidebarOpen && (
+          <button 
+            onClick={() => setIsSidebarOpen(true)}
+            className='fixed top-4 left-4 z-[200] p-3 bg-[#1e1e1e] backdrop-blur-md border border-[#2f2f2f] rounded-lg shadow-lg hover:bg-[#2f2f2f] transition-colors'
+          >
+            <Menu size={24} className="text-white"/>
+          </button>
+        )}
     </div>
   )
 }

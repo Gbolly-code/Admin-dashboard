@@ -371,13 +371,13 @@ const SettingsPage = () => {
 
                             {/* Save Button */}
                             <div className="mt-8 pt-6 border-t border-[#2f2f2f]">
-                                <div className="flex justify-end space-x-4">
-                                    <button className="px-6 py-3 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+                                <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
+                                    <button className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
                                         Cancel
                                     </button>
                                     <button
                                         onClick={handleSave}
-                                        className="px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+                                        className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
                                     >
                                         <Save size={16} className="mr-2" />
                                         Save Changes

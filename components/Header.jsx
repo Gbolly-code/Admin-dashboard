@@ -26,7 +26,7 @@ const Header = () => {
 
   return (
     <header className='fixed top-0 left-0 right-0 z-50 bg-[#1e1e1e]/90 backdrop-blur-md shadow-lg border-b border-[#1f1f1f]'>
-        <div className={`mx-auto py-4 px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'} max-w-7xl`}>
+        <div className={`mx-auto py-4 px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'} max-w-7xl`}>
             <h1 className={`text-lg sm:text-xl lg:text-2xl font-semibold text-gray-100 transition-all duration-300 ${isSidebarOpen ? 'opacity-0' : 'opacity-100'}`}>Dashboard</h1>
 
           <div className='flex items-center space-x-3 sm:space-x-6'>
