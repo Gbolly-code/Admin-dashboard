@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSidebar } from '@/contexts/SidebarContext'
+import { useClickOutside } from '@/hooks/useClickOutside'
 
 
 const ICONS = {
@@ -27,8 +28,15 @@ const Sidebar = () => {
     useEffect(() => {
         fetch("/data/data.json").then((res) => res.json()).then((data) => setSidebarItems(data.sidebarItems))
     }, [])
+
+    // Click outside to close sidebar on desktop only
+    const sidebarRef = useClickOutside(() => {
+        if (window.innerWidth >= 768) { // Only on desktop (md and above)
+            setIsSidebarOpen(false)
+        }
+    }, isSidebarOpen)
   return (
-    <div className={`relative z-[100] transition-all duration-300 ease-in-out flex-shrink-0 ${isSidebarOpen ? 'w-48' : 'w-0' }`}>
+    <div className={`relative z-[100] transition-all duration-300 ease-in-out flex-shrink-0 ${isSidebarOpen ? 'w-48' : 'w-0' }`} ref={sidebarRef}>
        <div className='h-full bg-[#1e1e1e] backdrop-blur-md flex flex-col border-r border-[#2f2f2f]'>
         
         {isSidebarOpen && (

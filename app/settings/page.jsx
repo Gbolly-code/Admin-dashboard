@@ -25,6 +25,7 @@ import {
     Clock
 } from "lucide-react"
 import React, { useState } from "react"
+import { useClickOutside } from "@/hooks/useClickOutside"
 
 const SettingsPage = () => {
     const [activeTab, setActiveTab] = useState('profile')
@@ -37,6 +38,7 @@ const SettingsPage = () => {
     })
     const [language, setLanguage] = useState('en')
     const [timezone, setTimezone] = useState('UTC')
+    const [showButtons, setShowButtons] = useState(false)
 
     const tabs = [
         { id: 'profile', name: 'Profile', icon: User },
@@ -57,7 +59,16 @@ const SettingsPage = () => {
         // Here you would typically save settings to a backend
         console.log('Settings saved:', { notifications, language, timezone })
         alert('Settings saved successfully!')
+        setShowButtons(false)
     }
+
+    const handleCancel = () => {
+        setShowButtons(false)
+        // Reset any unsaved changes here
+    }
+
+    // Click outside to hide buttons
+    const buttonsRef = useClickOutside(() => setShowButtons(false))
 
     return (
         <div className="flex-1 overflow-auto relative z-10">
@@ -371,17 +382,31 @@ const SettingsPage = () => {
 
                             {/* Save Button */}
                             <div className="mt-8 pt-6 border-t border-[#2f2f2f]">
-                                <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
-                                    <button className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
-                                        Cancel
-                                    </button>
-                                    <button
-                                        onClick={handleSave}
-                                        className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+                                <div className="flex justify-between items-center">
+                                    <button 
+                                        onClick={() => setShowButtons(true)}
+                                        className="px-4 py-2 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
                                     >
-                                        <Save size={16} className="mr-2" />
-                                        Save Changes
+                                        Edit Settings
                                     </button>
+                                    
+                                    {showButtons && (
+                                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4" ref={buttonsRef}>
+                                            <button 
+                                                onClick={handleCancel}
+                                                className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                onClick={handleSave}
+                                                className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+                                            >
+                                                <Save size={16} className="mr-2" />
+                                                Save Changes
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

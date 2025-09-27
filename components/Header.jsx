@@ -7,6 +7,7 @@ import { Bell, Search, Settings, LogOut, User, X, Menu } from 'lucide-react'
 import admin  from '../public/Images/admin.jpg'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSidebar } from '@/contexts/SidebarContext'
+import { useClickOutside } from '@/hooks/useClickOutside'
 
 
 const Header = () => {
@@ -23,6 +24,10 @@ const Header = () => {
   ]
 
   const unreadMessagesCount = messages.filter(m => m.unread).length
+
+  // Click outside refs
+  const profileRef = useClickOutside(() => setShowProfile(false))
+  const messagesRef = useClickOutside(() => setShowMessages(false))
 
   return (
     <header className='fixed top-0 left-0 right-0 z-50 bg-[#1e1e1e]/90 backdrop-blur-md shadow-lg border-b border-[#1f1f1f]'>
@@ -56,7 +61,7 @@ const Header = () => {
             <Image src={uk} alt='uk' width={25} height={18} className="rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform" />
             
             {/* Messages Button */}
-            <div className='relative'>
+            <div className='relative' ref={messagesRef}>
                 <button 
                   onClick={() => setShowMessages(!showMessages)}
                   className='relative p-2 rounded-full hover:bg-[#2f2f2f] transition-colors'
@@ -71,15 +76,15 @@ const Header = () => {
             </div>
 
             {/* Profile Dropdown */}
-            <div className='relative'>
+            <div className='relative' ref={profileRef}>
               <button 
                 onClick={() => setShowProfile(!showProfile)}
                 className='flex items-center space-x-2 sm:space-x-3 p-2 rounded-lg hover:bg-[#2f2f2f] transition-colors'
               >
-                    <Image src={admin} alt='admin' width={35} height={35} className='rounded-full border-gray-600'/>
-                    <span className='hidden sm:block text-gray-100 font-medium'>
-                        John Mark
-                    </span>
+                <Image src={admin} alt='admin' width={35} height={35} className='rounded-full border-gray-600'/>
+                <span className='hidden sm:block text-gray-100 font-medium'>
+                  John Mark
+                </span>
               </button>
 
               {/* Profile Dropdown */}
