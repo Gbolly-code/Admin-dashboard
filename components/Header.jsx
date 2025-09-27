@@ -11,17 +11,9 @@ import { useSidebar } from '@/contexts/SidebarContext'
 
 const Header = () => {
   const { isSidebarOpen } = useSidebar()
-  const [showNotifications, setShowNotifications] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
   const [showMessages, setShowMessages] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-
-  const notifications = [
-    { id: 1, title: "New order received", message: "Order #A7B9D31 from Ethan Carter", time: "2 min ago", unread: true },
-    { id: 2, title: "Low stock alert", message: "Mouse inventory is running low", time: "1 hour ago", unread: true },
-    { id: 3, title: "Payment received", message: "$632.00 payment from Sophia Mitchell", time: "3 hours ago", unread: false },
-    { id: 4, title: "New client registered", message: "Liam Harrison joined the platform", time: "5 hours ago", unread: false }
-  ]
 
   const messages = [
     { id: 1, from: "Ethan Carter", subject: "Order Update", time: "2 min ago", unread: true },
@@ -30,7 +22,6 @@ const Header = () => {
     { id: 4, from: "Ava Bennett", subject: "Payment Issue", time: "3 hours ago", unread: false }
   ]
 
-  const unreadCount = notifications.filter(n => n.unread).length
   const unreadMessagesCount = messages.filter(m => m.unread).length
 
   return (
@@ -56,58 +47,19 @@ const Header = () => {
             {/* Language Selector */}
             <Image src={uk} alt='uk' width={25} height={18} className="rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform" />
             
-            {/* Notifications */}
+            {/* Messages Button */}
             <div className='relative'>
                 <button 
-                  onMouseEnter={() => setShowNotifications(true)}
-                  onMouseLeave={() => setShowNotifications(false)}
                   onClick={() => setShowMessages(!showMessages)}
                   className='relative p-2 rounded-full hover:bg-[#2f2f2f] transition-colors'
                 >
                   <Bell className='w-5 sm:w-6 h-5 sm:h-6 text-gray-300 hover:text-white'/>
-                  {unreadCount > 0 && (
+                  {unreadMessagesCount > 0 && (
                     <span className='absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center'>
-                      {unreadCount}
+                      {unreadMessagesCount}
                     </span>
                   )}
                 </button>
-
-                {/* Notifications Dropdown */}
-                <AnimatePresence>
-                  {showNotifications && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      onMouseEnter={() => setShowNotifications(true)}
-                      onMouseLeave={() => setShowNotifications(false)}
-                      className='absolute right-0 mt-2 w-80 bg-[#1e1e1e] border border-[#2f2f2f] rounded-xl shadow-xl z-50'
-                    >
-                      <div className='p-4 border-b border-[#2f2f2f]'>
-                        <h3 className='text-lg font-semibold text-white'>Notifications</h3>
-                      </div>
-                      <div className='max-h-96 overflow-y-auto'>
-                        {notifications.map((notification) => (
-                          <div key={notification.id} className={`p-4 border-b border-[#2f2f2f] hover:bg-[#2f2f2f]/50 transition-colors ${notification.unread ? 'bg-[#2f2f2f]/30' : ''}`}>
-                            <div className='flex items-start space-x-3'>
-                              <div className={`w-2 h-2 rounded-full mt-2 ${notification.unread ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
-                              <div className='flex-1'>
-                                <h4 className='text-sm font-medium text-white'>{notification.title}</h4>
-                                <p className='text-xs text-gray-400 mt-1'>{notification.message}</p>
-                                <p className='text-xs text-gray-500 mt-1'>{notification.time}</p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className='p-4 border-t border-[#2f2f2f]'>
-                        <button className='w-full text-center text-sm text-blue-400 hover:text-blue-300'>
-                          View all notifications
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
             </div>
 
             {/* Profile Dropdown */}
