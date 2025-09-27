@@ -58,7 +58,7 @@ const OverviewPage = () => {
 
   return (
     <div className='flex-1 overflow-auto relative z-10'>
-        <main className='max-w-7xl mx-auto py-4 px-4 lg:px-8'>
+        <main className='py-4'>
             {/* Welcome Section */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}

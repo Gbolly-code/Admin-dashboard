@@ -4,6 +4,7 @@ import { DollarSign, House, Info, Mail, Settings, ShoppingBag, ShoppingCart, Use
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useSidebar } from '@/contexts/SidebarContext'
 
 
 const ICONS = {
@@ -19,8 +20,7 @@ const ICONS = {
 }
 
 const Sidebar = () => {
-    const [isSidebarOpen,setIssidebarOpen] = useState(true)
-
+    const { isSidebarOpen, setIsSidebarOpen } = useSidebar()
     const [sidebarItems, setSidebarItems] = useState([])
     const pathname = usePathname()
 
@@ -31,7 +31,7 @@ const Sidebar = () => {
     <div className={`relative z-[100] transition-all duration-300 ease-in-out flex-shrink-0 ${isSidebarOpen ? 'w-64' : 'w-20' }`}>
        <div className='h-full bg-[#1e1e1e] backdrop-blur-md p-4 flex flex-col border-r border-[#2f2f2f]'>
 
-        <button onClick={() => setIssidebarOpen(!isSidebarOpen)} className='p-2 rounded-full hover:bg-[#2f2f2f] transition-colors max-w-fit cursor-pointer'>
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className='p-2 rounded-full hover:bg-[#2f2f2f] transition-colors max-w-fit cursor-pointer'>
             {isSidebarOpen ? <X size={24}/> : <Menu size={24}/>}
         </button>
         <nav className='mt-8 flex-grow'>

@@ -50,7 +50,7 @@ const UsersPage = () => {
 
   return (
     <div className='flex-1 overflow-auto relative z-10'>
-        <main className='max-w-7xl mx-auto py-4 px-4 lg:px-8'>
+        <main className='py-4'>
             {/* Header Section */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -62,19 +62,6 @@ const UsersPage = () => {
                 <div>
                   <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Users Management</h1>
                   <p className="text-sm sm:text-base text-gray-400">Manage your customers and their information</p>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <button className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                    <Download size={16} />
-                    <span>Export</span>
-                  </button>
-                  <button 
-                    onClick={() => setShowAddUser(true)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                  >
-                    <UserPlus size={16} />
-                    <span>Add User</span>
-                  </button>
                 </div>
               </div>
             </motion.div>
