@@ -22,21 +22,73 @@ const ICONS = {
 const Sidebar = () => {
     const { isSidebarOpen, setIsSidebarOpen } = useSidebar()
     const [sidebarItems, setSidebarItems] = useState([])
+    const [showMobileDropdown, setShowMobileDropdown] = useState(false)
     const pathname = usePathname()
 
     useEffect(() => {
         fetch("/data/data.json").then((res) => res.json()).then((data) => setSidebarItems(data.sidebarItems))
     }, [])
+
+    // Important sections for mobile dropdown
+    const importantSections = [
+        { name: "Dashboard", icon: "House", href: "/" },
+        { name: "Products", icon: "ShoppingBag", href: "/products" },
+        { name: "Orders", icon: "ShoppingCart", href: "/orders" },
+        { name: "Users", icon: "Users", href: "/users" },
+        { name: "Messages", icon: "Mail", href: "/messages" },
+        { name: "Notifications", icon: "Bell", href: "/notifications" }
+    ]
   return (
     <div className={`relative z-[100] transition-all duration-300 ease-in-out flex-shrink-0 ${isSidebarOpen ? 'w-64' : 'w-20' }`}>
        <div className='h-full bg-[#1e1e1e] backdrop-blur-md flex flex-col border-r border-[#2f2f2f]'>
         
         {/* Fixed Toggle Button at Top */}
         <div className='sticky top-0 z-10 bg-[#1e1e1e] border-b border-[#2f2f2f] p-4'>
-          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className='p-2 rounded-full hover:bg-[#2f2f2f] transition-colors max-w-fit cursor-pointer'>
-              {isSidebarOpen ? <X size={24}/> : <Menu size={24}/>}
-          </button>
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+              className='p-2 rounded-full hover:bg-[#2f2f2f] transition-colors max-w-fit cursor-pointer'
+            >
+                {isSidebarOpen ? <X size={24}/> : <Menu size={24}/>}
+            </button>
+            
+            {/* Mobile Dropdown Button */}
+            <button 
+              onClick={() => setShowMobileDropdown(!showMobileDropdown)}
+              className='md:hidden p-2 rounded-full hover:bg-[#2f2f2f] transition-colors max-w-fit cursor-pointer'
+            >
+                <Menu size={24}/>
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {showMobileDropdown && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-[#1e1e1e] border-b border-[#2f2f2f] shadow-lg z-50">
+            <div className="p-4">
+              <div className="grid grid-cols-2 gap-2">
+                {importantSections.map((item) => {
+                  const IconComponent = ICONS[item.icon]
+                  return (
+                    <Link 
+                      key={item.name} 
+                      href={item.href}
+                      onClick={() => setShowMobileDropdown(false)}
+                    >
+                      <div className={`flex items-center space-x-2 p-3 rounded-lg hover:bg-[#2f2f2f] transition-colors ${
+                        pathname === item.href ? "bg-[#2f2f2f]" : ""
+                      }`}>
+                        <IconComponent size={18} />
+                        <span className="text-sm font-medium text-white">{item.name}</span>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
         <nav className='mt-4 flex-grow p-4'>
             {sidebarItems.map((item) => {
                 const IconComponent = ICONS[item.icon]

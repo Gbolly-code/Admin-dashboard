@@ -175,18 +175,20 @@ const ProductsTable = () => {
                                                 </div>
                                             </div>
 
-                                            <div className='flex space-x-1 -mt-1 -mr-1'>
+                                            <div className='flex flex-wrap gap-1 -mt-1 -mr-1'>
                                                 {editingProduct === product.id ? (
                                                     <>
                                                         <button 
                                                             onClick={() => handleSave(product.id)}
-                                                            className='text-green-500 hover:text-green-300'
+                                                            className='flex items-center justify-center w-8 h-8 text-green-500 hover:text-green-300 hover:bg-green-500/10 rounded-lg transition-colors'
+                                                            title="Save changes"
                                                         >
                                                             <Save size={16} />
                                                         </button>
                                                         <button 
                                                             onClick={handleCancel}
-                                                            className='text-gray-500 hover:text-gray-300'
+                                                            className='flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-300 hover:bg-gray-500/10 rounded-lg transition-colors'
+                                                            title="Cancel"
                                                         >
                                                             <X size={16} />
                                                         </button>
@@ -194,14 +196,16 @@ const ProductsTable = () => {
                                                 ) : (
                                                     <button 
                                                         onClick={() => handleEdit(product)}
-                                                        className='text-indigo-500 hover:text-indigo-300'
+                                                        className='flex items-center justify-center w-8 h-8 text-indigo-500 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-lg transition-colors'
+                                                        title="Edit product"
                                                     >
                                                         <Edit size={16} />
                                                     </button>
                                                 )}
                                                 <button 
                                                     onClick={() => handleDelete(product.id)}
-                                                    className='text-red-500 hover:text-red-300'
+                                                    className='flex items-center justify-center w-8 h-8 text-red-500 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors'
+                                                    title="Delete product"
                                                 >
                                                     <Trash2 size={16}/>
                                                 </button>
@@ -278,13 +282,15 @@ const ProductsTable = () => {
                                                 <>
                                                     <button 
                                                         onClick={() => handleSave(product.id)}
-                                                        className='text-green-500 hover:text-green-300'
+                                                        className='flex items-center justify-center w-8 h-8 text-green-500 hover:text-green-300 hover:bg-green-500/10 rounded-lg transition-colors'
+                                                        title="Save changes"
                                                     >
                                                         <Save size={16} />
                                                     </button>
                                                     <button 
                                                         onClick={handleCancel}
-                                                        className='text-gray-500 hover:text-gray-300'
+                                                        className='flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-300 hover:bg-gray-500/10 rounded-lg transition-colors'
+                                                        title="Cancel"
                                                     >
                                                         <X size={16} />
                                                     </button>
@@ -292,14 +298,16 @@ const ProductsTable = () => {
                                             ) : (
                                                 <button 
                                                     onClick={() => handleEdit(product)}
-                                                    className='text-indigo-500 hover:text-indigo-300'
+                                                    className='flex items-center justify-center w-8 h-8 text-indigo-500 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-lg transition-colors'
+                                                    title="Edit product"
                                                 >
                                                     <Edit size={16} />
                                                 </button>
                                             )}
                                             <button 
                                                 onClick={() => handleDelete(product.id)}
-                                                className='text-red-500 hover:text-red-300'
+                                                className='flex items-center justify-center w-8 h-8 text-red-500 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors'
+                                                title="Delete product"
                                             >
                                                 <Trash2 size={16}/>
                                             </button>

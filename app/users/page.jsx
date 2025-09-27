@@ -55,7 +55,7 @@ const UsersPage = () => {
     }
   }
 
-  return (
+    return (
     <div className='flex-1 overflow-auto relative z-10'>
         <main className='py-4'>
             {/* Header Section */}
@@ -137,9 +137,9 @@ const UsersPage = () => {
             </motion.div>
 
             {/* Users Grid */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+                <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
             >
@@ -207,7 +207,7 @@ const UsersPage = () => {
                   </motion.div>
                 )
               })}
-            </motion.div>
+                </motion.div>
 
             {filteredUsers.length === 0 && (
               <motion.div 
@@ -220,9 +220,9 @@ const UsersPage = () => {
                 <p className="text-gray-500">Try adjusting your search or filter criteria</p>
               </motion.div>
             )}
-        </main>
-    </div>
-  )
+            </main>
+        </div>
+    )
 }
 
 export default UsersPage
