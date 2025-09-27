@@ -29,12 +29,15 @@ const Sidebar = () => {
     }, [])
   return (
     <div className={`relative z-[100] transition-all duration-300 ease-in-out flex-shrink-0 ${isSidebarOpen ? 'w-64' : 'w-20' }`}>
-       <div className='h-full bg-[#1e1e1e] backdrop-blur-md p-4 flex flex-col border-r border-[#2f2f2f]'>
-
-        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className='p-2 rounded-full hover:bg-[#2f2f2f] transition-colors max-w-fit cursor-pointer'>
-            {isSidebarOpen ? <X size={24}/> : <Menu size={24}/>}
-        </button>
-        <nav className='mt-8 flex-grow'>
+       <div className='h-full bg-[#1e1e1e] backdrop-blur-md flex flex-col border-r border-[#2f2f2f]'>
+        
+        {/* Fixed Toggle Button at Top */}
+        <div className='sticky top-0 z-10 bg-[#1e1e1e] border-b border-[#2f2f2f] p-4'>
+          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className='p-2 rounded-full hover:bg-[#2f2f2f] transition-colors max-w-fit cursor-pointer'>
+              {isSidebarOpen ? <X size={24}/> : <Menu size={24}/>}
+          </button>
+        </div>
+        <nav className='mt-4 flex-grow p-4'>
             {sidebarItems.map((item) => {
                 const IconComponent = ICONS[item.icon]
                 return (

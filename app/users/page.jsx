@@ -28,7 +28,14 @@ const UsersPage = () => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.country.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesSearch
+    
+    // Get user status based on ID (same logic as getStatusColor)
+    const userStatus = ['active', 'inactive', 'pending'][user.id % 3]
+    
+    // Filter by status if not 'all'
+    const matchesStatus = filterStatus === 'all' || userStatus === filterStatus
+    
+    return matchesSearch && matchesStatus
   })
 
   const getStatusColor = (user) => {
